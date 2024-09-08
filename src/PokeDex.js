@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import './PokeDex.css';
 import { useAxios } from './hooks';
 import PokemonSelect from './PokemonSelect';
