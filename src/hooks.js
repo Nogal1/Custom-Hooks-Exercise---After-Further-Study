@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import axios from 'axios';
 
@@ -16,16 +15,17 @@ function useFlip() {
 }
 
 /**
- * Custom hook to handle axios requests.
+ * Custom hook to handle axios requests with formatting.
  * @param {string} baseURL - The base URL for the axios request.
+ * @param {function} formatFn - Function to format response data before storing.
  */
-function useAxios(baseURL) {
+function useAxios(baseURL, formatFn) {
   const [data, setData] = useState([]);
 
   const addData = async (urlSuffix = '') => {
     try {
       const response = await axios.get(`${baseURL}${urlSuffix}`);
-      setData(data => [...data, { ...response.data }]);
+      setData(data => [...data, formatFn(response.data)]);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
