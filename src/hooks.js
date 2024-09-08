@@ -1,16 +1,37 @@
-import { useState } from 'react';
 
+import { useState } from 'react';
+import axios from 'axios';
+
+/**
+ * Custom hook to handle flip state.
+ */
 function useFlip() {
-  // Initialize the flipped state
   const [isFlipped, setIsFlipped] = useState(false);
 
-  // Function to toggle the flip state
-  function flipCard() {
-    setIsFlipped((flipped) => !flipped);
-  }
+  const toggleFlip = () => {
+    setIsFlipped(flip => !flip);
+  };
 
-  // Return the current flip state and the toggle function
-  return [isFlipped, flipCard];
+  return [isFlipped, toggleFlip];
 }
 
-export { useFlip };
+/**
+ * Custom hook to handle axios requests.
+ * @param {string} baseURL - The base URL for the axios request.
+ */
+function useAxios(baseURL) {
+  const [data, setData] = useState([]);
+
+  const addData = async (urlSuffix = '') => {
+    try {
+      const response = await axios.get(`${baseURL}${urlSuffix}`);
+      setData(data => [...data, { ...response.data }]);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  return [data, addData];
+}
+
+export { useFlip, useAxios };
