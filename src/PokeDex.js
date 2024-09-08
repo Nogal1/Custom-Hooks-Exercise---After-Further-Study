@@ -10,7 +10,7 @@ import PokemonCard from './PokemonCard';
  * or from a dropdown of available pokemon. */
 function PokeDex() {
   const BASE_URL = 'https://pokeapi.co/api/v2/pokemon/';
-  const [pokemon, addPokemon] = useAxios(BASE_URL);
+  const [pokemon, addPokemon, clearPokemon] = useAxios(BASE_URL);
 
   const handleAdd = (name) => {
     addPokemon(name);
@@ -21,6 +21,7 @@ function PokeDex() {
       <div className="PokeDex-buttons">
         <h3>Please select your Pokemon:</h3>
         <PokemonSelect add={handleAdd} />
+        <button onClick={clearPokemon}>Clear all Pokémon</button>
       </div>
       <div className="PokeDex-card-area">
         {pokemon.map((pData, idx) => (

@@ -31,7 +31,11 @@ function useAxios(baseURL) {
     }
   };
 
-  return [data, addData];
+  const clearData = () => {
+    setData([]);
+  };
+
+  return [data, addData, clearData];
 }
 
 export { useFlip, useAxios };
