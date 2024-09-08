@@ -19,23 +19,23 @@ function useFlip() {
  * @param {string} baseURL - The base URL for the axios request.
  * @param {function} formatFn - Function to format response data before storing.
  */
-function useAxios(baseURL, formatFn) {
-  const [data, setData] = useState([]);
-
-  const addData = async (urlSuffix = '') => {
-    try {
-      const response = await axios.get(`${baseURL}${urlSuffix}`);
-      setData(data => [...data, formatFn(response.data)]);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
-
-  const clearData = () => {
-    setData([]);
-  };
-
-  return [data, addData, clearData];
-}
+function useAxios(baseURL, formatFn, localStorageKey) {
+    const [data, setData] = useLocalStorage(localStorageKey, []);
+  
+    const addData = async (urlSuffix = '') => {
+      try {
+        const response = await axios.get(`${baseURL}${urlSuffix}`);
+        setData((data) => [...data, formatFn(response.data)]);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+  
+    const clearData = () => {
+      setData([]);
+    };
+  
+    return [data, addData, clearData];
+  }
 
 export { useFlip, useAxios };
